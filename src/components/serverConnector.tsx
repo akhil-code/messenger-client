@@ -28,7 +28,7 @@ class ServerConnector extends Component<Props, State> {
     connectToSocketServer = () => {
         console.log(`attempting to connect to socket server`);
         // connect to socket server
-        const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
+        const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://server.quickdates.in:3000");
         socket.on(`connect`, () => {
             console.log(
                 `connection successful with server with socket id: ${socket.id}`

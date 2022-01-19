@@ -19,7 +19,7 @@ class AvailableSockets extends React.Component<Props, State> {
     }
 
     fetchAllSockets = () => {
-        fetch('/sockets')
+        fetch('http://server.quickdates.in:3000/sockets')
             .then(res => res.json())
             .then(res => {
                 this.setState({
