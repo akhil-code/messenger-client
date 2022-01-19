@@ -20,7 +20,7 @@ class ChatHistory extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <h3>Conversation</h3>
+                <h3>Conversation ({this.props.conversation.length})</h3>
                 <ul>
                     {this.renderConversation()}
                 </ul>
