@@ -1,68 +1,61 @@
 import React, { Component } from "react";
 import { Socket } from "socket.io-client";
+import { InputGroup, Input, Button, Row } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 interface Props {
-    socket?: Socket,
-    targetSocketId?: string
+    socket?: Socket;
 }
 
 interface State {
-    message: string
+    message: string;
 }
 
 class MessageEditor extends Component<Props, State> {
-
     state = {
-        message: ""
-    }
+        message: "",
+    };
 
     handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            message: event.target.value
-        })
-    }
+            message: event.target.value,
+        });
+    };
 
     sendMessageHandler = (event: React.SyntheticEvent) => {
         event.preventDefault();
         // send message event
-        let socket = this.props.socket
-        let message = this.state.message
+        let socket = this.props.socket;
+        let message = this.state.message;
 
-        if(socket !== undefined && message !== "" && this.props.targetSocketId !== undefined) {
-            socket.emit("message", {
-                message,
-                receiver: this.props.targetSocketId
-            })
+        if (socket !== undefined && message !== "") {
+            socket.emit("message", { message });
         }
-        
-        this.setState({
-            message: ""
-        })
-    }
 
-    renderTargetChat = () => {
-        let targetSocketId = this.props.targetSocketId
-        if(targetSocketId === undefined) {
-            return <p>Please choose a socket to start a conversation</p>
-        } else {
-            return (
-                <div>
-                    <p>Selected destination: {targetSocketId}</p>
-                </div>
-            );
-        }
-    }
+        this.setState({ message: "" });
+    };
 
     render() {
         return (
-            <div>
-                <h3>Message Editor</h3>
-                {this.renderTargetChat()}
+            <Row>
                 <form>
-                    <input type="text" onChange={this.handleMessageChange} value={this.state.message}></input>
-                    <button type="submit" onClick={this.sendMessageHandler} disabled={this.state.message === ""}>Send</button>
+                    <InputGroup>
+                        <Input
+                            value={this.state.message}
+                            onChange={this.handleMessageChange}
+                            placeholder="Type your message here...."
+                        />
+                        <Button
+                            type="submit"
+                            onClick={this.sendMessageHandler}
+                            disabled={this.state.message === ""}
+                            color="success"
+                        >
+                            Send
+                        </Button>
+                    </InputGroup>
                 </form>
-            </div>
+            </Row>
         );
     }
 }
