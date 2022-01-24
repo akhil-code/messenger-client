@@ -31,8 +31,9 @@ class WelcomeNote extends React.Component<Props, State> {
                     <Alert isOpen={this.state.isWelcomeNoteVisible}>
                         <h4 className="alert-heading">Welcome to Quick dates</h4>
                         <p>
-                            You will get to connect with like minded people
-                            instantly here.
+                            <li><strong>Quick chats: </strong> You will get to connect with like minded people instantly here.</li>
+                            <li><strong>Anonymous: </strong>We dont store your 1-1 chats.</li>
+                            <li><strong>No history: </strong>Your history will be cleared once you close your browser</li>
                         </p>
                     </Alert>
                 </Col>

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import MessageEditor from "./messageEditor";
 import SocketHandler from "./socketHandler";
 import Conversation from "./conversation";
-import WelcomeNote from "./welcomeNote";
 import { Socket } from "socket.io-client";
 
 interface Props {}
@@ -44,7 +43,6 @@ class ChannelConversation extends Component<Props, State> {
     render() {
         return (
             <React.Fragment>
-                <WelcomeNote />
                 <SocketHandler updateSocket={this.updateSocket} socket={this.state.socket} addToConversation={this.addToConversation} />
                 <Conversation conversation={this.state.conversation} />
                 <br/>

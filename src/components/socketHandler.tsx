@@ -64,11 +64,10 @@ class SocketHandler extends Component<Props, State> {
     };
 
     addEventListeners = (socket: Socket) => {
-        socket.on("conversationItem", (message) => {
+        socket.on("groupMessage", (message) => {
             this.props.addToConversation(message);
         });
     };
-
 
     render() {
         return <div></div>;

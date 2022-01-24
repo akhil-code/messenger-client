@@ -23,7 +23,7 @@ class Conversation extends React.Component<Props, State> {
 
     componentDidMount() {
         const { REACT_APP_BACKEND_SERVER_DOMAIN } = process.env
-        fetch(`${REACT_APP_BACKEND_SERVER_DOMAIN}/chatHistory`)
+        fetch(`${REACT_APP_BACKEND_SERVER_DOMAIN}/chat-history`)
         .then(res => res.json())
         .then(res => {
             this.setState({

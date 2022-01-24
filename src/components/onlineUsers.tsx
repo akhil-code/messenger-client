@@ -17,9 +17,9 @@ class OnlineUsers extends React.Component<Props, State> {
     }
 
     fetchAllAvailableUsers = () => {
-        console.log("fetching users from server at /sockets");
+        console.log("fetching users from server at /online-users");
         const { REACT_APP_BACKEND_SERVER_DOMAIN } = process.env;
-        fetch(`${REACT_APP_BACKEND_SERVER_DOMAIN}/sockets`)
+        fetch(`${REACT_APP_BACKEND_SERVER_DOMAIN}/online-users`)
             .then((res) => res.json())
             .then((res) => {
                 this.setState({

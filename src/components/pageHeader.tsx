@@ -37,10 +37,18 @@ class PageHeader extends React.Component<Props, State> {
                     <Collapse navbar isOpen={this.state.expandNavbar}>
                         <Nav className="me-auto" navbar>
                             <NavItem>
-                                <NavLink href="/onlineUsers">Online users</NavLink>
+                                <NavLink href="/login">Login</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="/online-users">
+                                    Online users
+                                </NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="/channels">Channels</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="/create-channel">Create channel</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="/support">
@@ -48,9 +56,7 @@ class PageHeader extends React.Component<Props, State> {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/contactUs">
-                                    Contact us
-                                </NavLink>
+                                <NavLink href="/contact-us">Contact us</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
