@@ -2,13 +2,12 @@ import * as React from "react";
 import {
     Row,
     Navbar,
-    NavbarBrand,
     NavbarToggler,
     Collapse,
     Nav,
     NavItem,
-    NavLink,
 } from "reactstrap";
+import { Link } from 'react-router-dom'
 
 interface Props {}
 
@@ -32,31 +31,27 @@ class PageHeader extends React.Component<Props, State> {
         return (
             <Row>
                 <Navbar color="warning" fixed="top" light expand="md">
-                    <NavbarBrand href="/">Quick dates</NavbarBrand>
+                    <Link className="navbar-brand" to="/">Quick dates</Link>
                     <NavbarToggler onClick={this.toggleNavbarItems} />
                     <Collapse navbar isOpen={this.state.expandNavbar}>
                         <Nav className="me-auto" navbar>
                             <NavItem>
-                                <NavLink href="/login">Login</NavLink>
+                                <Link className="nav-link" to="/login">Login</Link>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/online-users">
-                                    Online users
-                                </NavLink>
+                                <Link className="nav-link" to="/online-users">Online users</Link>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/channels">Channels</NavLink>
+                                <Link className="nav-link" to="/channels">Channels</Link>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/create-channel">Create channel</NavLink>
+                                <Link className="nav-link" to="/create-channel">Create channel</Link>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/support">
-                                    Support us / donate
-                                </NavLink>
+                                <Link className="nav-link" to="/support">Support us / donate</Link>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/contact-us">Contact us</NavLink>
+                                <Link className="nav-link" to="/contact-us">Contact us</Link>
                             </NavItem>
                         </Nav>
                     </Collapse>

@@ -3,6 +3,7 @@ import { Row, ListGroup, ListGroupItem, Badge, Col } from "reactstrap";
 import { v4 as uuidv4 } from 'uuid';
 import WelcomeNote from "./welcomeNote";
 
+
 interface Props {}
 
 interface State {
@@ -41,7 +42,7 @@ class ChannelsList extends React.Component<Props, State> {
 
     renderChannelsList = (channelNames: Array<string>) => {
         return channelNames.map(channel => (
-            <ListGroupItem key={uuidv4()} action tag="a" href="/conversation">{channel} <Badge>0 online users</Badge></ListGroupItem>
+            <ListGroupItem key={uuidv4()} action tag="a" href="/conversation">{channel}</ListGroupItem>
         ))
         
     }
@@ -51,14 +52,13 @@ class ChannelsList extends React.Component<Props, State> {
             <React.Fragment>
                 <WelcomeNote/>
                 <Row>
-                    
                     <Col>
                         {/* key is location name, value is list of channel names */}
                         {Object.entries(this.state.channels).map(entry => (
                             <React.Fragment key={uuidv4()}>
                                 <ListGroup >
                                     <ListGroupItem action active href="#" tag="button">
-                                        {entry[0]}
+                                        {entry[0]} <Badge color="danger">0 online users</Badge>
                                     </ListGroupItem>
                                     {this.renderChannelsList(entry[1])}
                                 </ListGroup>
@@ -67,7 +67,6 @@ class ChannelsList extends React.Component<Props, State> {
                         ))}
                     </Col>
                 </Row>
-
             </React.Fragment>
         );
     }
