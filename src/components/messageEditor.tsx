@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Socket } from "socket.io-client";
 import { InputGroup, Input, Button, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Message } from '../types/Chat'
 
 interface Props {
-    socket?: Socket;
 }
 
 interface State {
@@ -26,17 +24,16 @@ class MessageEditor extends Component<Props, State> {
     sendMessageHandler = (event: React.SyntheticEvent) => {
         event.preventDefault();
         // send message event
-        let socket = this.props.socket;
         let message = this.state.message;
 
-        if (socket !== undefined && message !== "") {
+        if (message !== "") {
             let messageEvent: Message = {
-                sender: socket.id,
+                sender: "",
                 receiver: "/",
                 message: message,
             };
 
-            socket.emit("groupMessage", messageEvent);
+            // socket.emit("groupMessage", messageEvent);
         }
         this.setState({ message: "" });
     };

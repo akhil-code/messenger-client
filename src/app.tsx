@@ -9,23 +9,38 @@ import ContactUs from "./components/contactUs";
 import OnlineUsers from "./components/onlineUsers";
 import Login from "./components/login";
 import CreateChannel from "./components/createChannel";
-import { SocketContext } from "./context/socketContext";
-import { io } from 'socket.io-client'
+import { AppContext } from "./context/appContext";
+import WebSocket from "./handlers/webSocketHandler";
 
 interface Props {}
-
-interface State {}
+interface State {
+    webSocket?: WebSocket
+    selectedLocation?: string
+}
 
 class App extends React.Component<Props, State> {
-    createSocketClient = () => {
-        console.log(`creating socket io client`)
-        const { REACT_APP_BACKEND_SERVER_DOMAIN } = process.env;
-        return io(`${REACT_APP_BACKEND_SERVER_DOMAIN}`, { transports: ["websocket"] });
+    state = { webSocket: undefined, selectedLocation: undefined }
+    
+    updateSocket = (webSocket: WebSocket) => {
+        console.log(`update socket triggered`)
+        this.setState({...this.state, webSocket})
     }
+    updateSelectedLocation = (location: string) => this.setState({...this.state, selectedLocation: location})
+
+    componentDidUpdate() {
+        console.log(this.state)
+    }
+
     render() {
+        let appContext = {
+            webSocket: this.state.webSocket,
+            updateSocket: this.updateSocket,
+            selectedLocation: this.state.selectedLocation,
+            updateSelectedLocation: this.updateSelectedLocation
+        }
         return (
             <Container>
-                <SocketContext.Provider value={this.createSocketClient()}>
+                <AppContext.Provider value={appContext}>
                     <div style={{paddingTop: "75px"}}>
                         <BrowserRouter>
                             <PageHeader />
@@ -41,7 +56,7 @@ class App extends React.Component<Props, State> {
                             </Routes>
                         </BrowserRouter>
                     </div>
-                </SocketContext.Provider>
+                </AppContext.Provider>
                 
             </Container>
         );

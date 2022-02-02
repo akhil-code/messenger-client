@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import * as React from "react";
 
 import {
@@ -23,10 +23,10 @@ interface State {
     location: string;
     isInvalidChannelName: boolean;
     channelNameErrorMessage: string;
-    locationErrorMessage: string,
+    locationErrorMessage: string;
     isInvalidLocation: boolean;
     supportedLocations: Array<string>;
-    locationSelectionKey: string
+    locationSelectionKey: string;
 }
 
 class CreateChannel extends React.Component<Props, State> {
@@ -38,28 +38,30 @@ class CreateChannel extends React.Component<Props, State> {
         isInvalidLocation: false,
         locationErrorMessage: "",
         supportedLocations: [],
-        locationSelectionKey: uuidv4()
+        locationSelectionKey: uuidv4(),
     };
 
     componentDidMount() {
-        let serverDomain = process.env.REACT_APP_BACKEND_SERVER_DOMAIN
+        let serverDomain = process.env.REACT_APP_BACKEND_SERVER_DOMAIN;
         fetch(`${serverDomain}/supported-locations`)
-        .then(res => res.json())
-        .then(res => {
-            this.setState({
-                ...this.state,
-                supportedLocations: res
-            })
-        })
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    ...this.state,
+                    supportedLocations: res,
+                });
+            });
     }
 
-    handleChannelNameFieldEvents = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleChannelNameFieldEvents = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         this.setState({
             ...this.state,
             channelName: event.target.value,
             isInvalidChannelName: false,
             channelNameErrorMessage: "",
-        })
+        });
     };
 
     handleLocationSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,61 +70,61 @@ class CreateChannel extends React.Component<Props, State> {
             location: event.target.value,
             isInvalidLocation: false,
             locationErrorMessage: "",
-        })
-    }
+        });
+    };
 
     /**
      * Validates the channel name & location
      * @returns true if validation is successful or else returns false.
      */
-     channelCreationInputs = (): boolean => {
-         let channelName = this.state.channelName;
-         let location = this.state.location;
+    channelCreationInputs = (): boolean => {
+        let channelName = this.state.channelName;
+        let location = this.state.location;
 
-        if(channelName === "") {
+        if (channelName === "") {
             this.setState({
                 ...this.state,
                 isInvalidChannelName: true,
-                channelNameErrorMessage: "Empty channel name"
-            })
+                channelNameErrorMessage: "Empty channel name",
+            });
             return false;
         }
 
-        if(location === "" || location ==="default") {
-            console.log("invalid value")
+        if (location === "" || location === "default") {
+            console.log("invalid value");
             this.setState({
                 ...this.state,
                 isInvalidLocation: true,
-                locationErrorMessage: "Please select a location"
-            })
+                locationErrorMessage: "Please select a location",
+            });
             return false;
         }
         return true;
-    }
-    
+    };
+
     handleCreateChannel = () => {
         let newChannelName = this.state.channelName;
         let location = this.state.location;
-        if(!this.channelCreationInputs()) {
+        if (!this.channelCreationInputs()) {
             return;
         }
 
         const requestOptions = {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json', 
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 channelName: newChannelName,
-                location: location
-            })
-        }
+                location: location,
+            }),
+        };
 
-        let serverDomain = process.env.REACT_APP_BACKEND_SERVER_DOMAIN
+        let serverDomain = process.env.REACT_APP_BACKEND_SERVER_DOMAIN;
         fetch(`${serverDomain}/create-channel`, requestOptions)
-        .then(res => res.json())
-        .then(res => console.log(res))
-    }
+            .then((res) => res.json())
+            .then((res) => console.log(res));
+    };
 
     resetForm = () => {
         this.setState({
@@ -131,11 +133,11 @@ class CreateChannel extends React.Component<Props, State> {
             location: "",
             isInvalidChannelName: false,
             channelNameErrorMessage: "",
-            locationSelectionKey: uuidv4()
-        })
+            locationSelectionKey: uuidv4(),
+        });
 
         this.forceUpdate();
-    }
+    };
 
     render() {
         return (
@@ -152,7 +154,9 @@ class CreateChannel extends React.Component<Props, State> {
 
                                 <Form>
                                     <InputGroup>
-                                        <InputGroupText>Channel Name</InputGroupText>
+                                        <InputGroupText>
+                                            Channel Name
+                                        </InputGroupText>
                                         <Input
                                             invalid={
                                                 this.state.isInvalidChannelName
@@ -168,19 +172,32 @@ class CreateChannel extends React.Component<Props, State> {
                                         </FormFeedback>
                                     </InputGroup>
                                 </Form>
-                                <br/>
+                                <br />
                                 <InputGroup>
-                                    <InputGroupText>
-                                        Location
-                                    </InputGroupText>
-                                    <Input key={this.state.locationSelectionKey} invalid={this.state.isInvalidLocation} type="select" onChange={this.handleLocationSelection}>
-                                        <option disabled selected value="default">-- select an option --</option>
-                                        {this.state.supportedLocations.map(location => (
-                                            <option key={location} value={location}>{location}</option>
-                                        ))}
+                                    <InputGroupText>Location</InputGroupText>
+                                    <Input
+                                        key={this.state.locationSelectionKey}
+                                        invalid={this.state.isInvalidLocation}
+                                        defaultValue="default"
+                                        type="select"
+                                        onChange={this.handleLocationSelection}
+                                    >
+                                        <option disabled value="default">
+                                            -- select an option --
+                                        </option>
+                                        {this.state.supportedLocations.map(
+                                            (location) => (
+                                                <option
+                                                    key={location}
+                                                    value={location}
+                                                >
+                                                    {location}
+                                                </option>
+                                            )
+                                        )}
                                     </Input>
                                     <FormFeedback>
-                                            {this.state.locationErrorMessage}
+                                        {this.state.locationErrorMessage}
                                     </FormFeedback>
                                 </InputGroup>
                                 <br />

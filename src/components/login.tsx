@@ -14,6 +14,8 @@ import {
     CardHeader,
     CardBody,
 } from "reactstrap";
+import { AppContext } from '../context/appContext'
+import WebSocket from '../handlers/webSocketHandler'
 
 interface Props {}
 
@@ -51,6 +53,7 @@ class Login extends React.Component<Props, State> {
                 });
             });
     }
+
 
     handleNameFieldEvents = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
@@ -92,13 +95,15 @@ class Login extends React.Component<Props, State> {
         return true;
     };
 
-    handleSignIn = () => {
+    handleSignIn = (updateSocket: (socket: WebSocket) => void, updateSelectedLocation: (location: string) => void) => {
         if (!this.validateSignIn()) {
             return;
         }
+        updateSocket(new WebSocket())
+        // updateSelectedLocation(this.state.location)
     };
 
-    resetForm = () => {
+    resetForm = (webSocket?: WebSocket) => {
         this.setState({
             ...this.state,
             name: "",
@@ -111,98 +116,103 @@ class Login extends React.Component<Props, State> {
 
     render() {
         return (
-            <div>
-                <Row>
-                    <Col lg={{ offset: 3, size: 6 }}>
-                        <Card>
-                            <CardHeader tag="h3">Login</CardHeader>
-                            <CardBody>
-                                <CardText>
-                                    Please fill in the following details to
-                                    quickly jump in and start chatting.
-                                </CardText>
-
-                                <Form>
-                                    <InputGroup>
-                                        <InputGroupText>Name</InputGroupText>
-                                        <Input
-                                            invalid={
-                                                this.state.nameValidationFailure
-                                            }
-                                            onChange={
-                                                this.handleNameFieldEvents
-                                            }
-                                            value={this.state.name}
-                                        />
-                                        <FormFeedback>
-                                            {
-                                                this.state
-                                                    .nameValidationFailureMessage
-                                            }
-                                        </FormFeedback>
-                                    </InputGroup>
-                                    <br />
-                                    <InputGroup>
-                                        <InputGroupText>
-                                            Location
-                                        </InputGroupText>
-                                        <Input
-                                            type="select"
-                                            onChange={this.handleLocationSelectionEvent}
-                                            invalid={
-                                                this.state
-                                                    .isInvalidLocationSelected
-                                            }
-                                            key={
-                                                this.state.locationSelectionKey
-                                            }
-                                        >
-                                            <option
-                                                disabled
-                                                selected
-                                                value="default"
-                                            >
-                                                -- select an option --
-                                            </option>
-                                            {this.state.supportedLocations.map(
-                                                (location) => (
-                                                    <option key={location}>
-                                                        {location}
+            <AppContext.Consumer>
+                {({webSocket, updateSocket, updateSelectedLocation}) => (
+                    <div>
+                        <Row>
+                            <Col lg={{ offset: 3, size: 6 }}>
+                                <Card>
+                                    <CardHeader tag="h3">Login</CardHeader>
+                                    <CardBody>
+                                        <CardText>
+                                            Please fill in the following details to quickly jump in and start chatting.<br/>
+                                        </CardText>
+        
+                                        <Form>
+                                            <InputGroup>
+                                                <InputGroupText>Name</InputGroupText>
+                                                <Input
+                                                    invalid={
+                                                        this.state.nameValidationFailure
+                                                    }
+                                                    onChange={
+                                                        this.handleNameFieldEvents
+                                                    }
+                                                    value={this.state.name}
+                                                />
+                                                <FormFeedback>
+                                                    {
+                                                        this.state
+                                                            .nameValidationFailureMessage
+                                                    }
+                                                </FormFeedback>
+                                            </InputGroup>
+                                            <br />
+                                            <InputGroup>
+                                                <InputGroupText>
+                                                    Location
+                                                </InputGroupText>
+                                                <Input
+                                                    type="select"
+                                                    defaultValue="default"
+                                                    onChange={this.handleLocationSelectionEvent}
+                                                    invalid={
+                                                        this.state
+                                                            .isInvalidLocationSelected
+                                                    }
+                                                    key={
+                                                        this.state.locationSelectionKey
+                                                    }
+                                                >
+                                                    <option
+                                                        disabled
+                                                        value="default"
+                                                    >
+                                                        -- select an option --
                                                     </option>
-                                                )
-                                            )}
-                                        </Input>
-                                        <FormFeedback>
-                                            {this.state.locationErrorMessage}
-                                        </FormFeedback>
-                                    </InputGroup>
-                                    <br />
-                                </Form>
-                                <Row>
-                                    <Col xs="auto">
-                                        <Button
-                                            onClick={this.handleSignIn}
-                                            outline
-                                            color="success"
-                                        >
-                                            Sign in
-                                        </Button>
-                                    </Col>
-                                    <Col>
-                                        <Button
-                                            outline
-                                            color="danger"
-                                            onClick={this.resetForm}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-            </div>
+                                                    {this.state.supportedLocations.map(
+                                                        (location) => (
+                                                            <option key={location}>
+                                                                {location}
+                                                            </option>
+                                                        )
+                                                    )}
+                                                </Input>
+                                                <FormFeedback>
+                                                    {this.state.locationErrorMessage}
+                                                </FormFeedback>
+                                            </InputGroup>
+                                            <br />
+                                        </Form>
+                                        <Row>
+                                            <Col xs="auto">
+                                                <Button
+                                                    onClick={() => this.handleSignIn(updateSocket, updateSelectedLocation)}
+                                                    outline
+                                                    color="success"
+                                                >
+                                                    Sign in
+                                                </Button>
+                                            </Col>
+                                            <Col>
+                                                <Button
+                                                    outline
+                                                    color="danger"
+                                                    onClick={() => this.resetForm(webSocket)}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </div>
+
+                )}
+            </AppContext.Consumer>
+            
         );
     }
 }
