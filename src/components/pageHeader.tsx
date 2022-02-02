@@ -5,6 +5,7 @@ import {
     NavbarToggler,
     Collapse,
     Nav,
+    Badge,
     NavItem,
 } from "reactstrap";
 import { Link } from 'react-router-dom'
@@ -31,20 +32,17 @@ class PageHeader extends React.Component<Props, State> {
     render() {
         return (
             <AppContext.Consumer>
-                { ({selectedLocation, webSocket}) => (
+                { ({context}) => (
                     <Row>
                         <Navbar color="warning" fixed="top" light expand="md">
                             <Link className="navbar-brand" to="/">Quick dates</Link>
+                            {context.selectedLocation === undefined ? <></> : (
+                                    <Badge color="secondary" pill>{context.selectedLocation}</Badge>
+                            )}
                             <NavbarToggler onClick={this.toggleNavbarItems} />
                             <Collapse navbar isOpen={this.state.expandNavbar}>
                                 <Nav className="me-auto" navbar>
-                                    {selectedLocation === undefined ? <></> : (
-                                        <NavItem>
-                                            <Link className="nav-link" to="/login">{selectedLocation}</Link>
-                                        </NavItem>
-                                    )}
-                                    
-                                    {webSocket !== undefined ? <></> : (
+                                    {context.webSocket !== undefined ? <></> : (
                                         <NavItem>
                                             <Link className="nav-link" to="/login">Login</Link>
                                         </NavItem>

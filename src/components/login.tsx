@@ -95,15 +95,18 @@ class Login extends React.Component<Props, State> {
         return true;
     };
 
-    handleSignIn = (updateSocket: (socket: WebSocket) => void, updateSelectedLocation: (location: string) => void) => {
+    handleSignIn = (context: {}, updateContext: ({}) => void) => {
         if (!this.validateSignIn()) {
             return;
         }
-        updateSocket(new WebSocket())
-        // updateSelectedLocation(this.state.location)
+        updateContext({
+            ...context,
+            webSocket: new WebSocket(),
+            selectedLocation: this.state.location,
+        })
     };
 
-    resetForm = (webSocket?: WebSocket) => {
+    resetForm = () => {
         this.setState({
             ...this.state,
             name: "",
@@ -117,7 +120,7 @@ class Login extends React.Component<Props, State> {
     render() {
         return (
             <AppContext.Consumer>
-                {({webSocket, updateSocket, updateSelectedLocation}) => (
+                {({context, updateContext}) => (
                     <div>
                         <Row>
                             <Col lg={{ offset: 3, size: 6 }}>
@@ -187,8 +190,9 @@ class Login extends React.Component<Props, State> {
                                         <Row>
                                             <Col xs="auto">
                                                 <Button
-                                                    onClick={() => this.handleSignIn(updateSocket, updateSelectedLocation)}
+                                                    onClick={() => this.handleSignIn(context, updateContext)}
                                                     outline
+                                                    disabled={context.webSocket !== undefined}
                                                     color="success"
                                                 >
                                                     Sign in
@@ -198,7 +202,7 @@ class Login extends React.Component<Props, State> {
                                                 <Button
                                                     outline
                                                     color="danger"
-                                                    onClick={() => this.resetForm(webSocket)}
+                                                    onClick={this.resetForm}
                                                 >
                                                     Cancel
                                                 </Button>

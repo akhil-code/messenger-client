@@ -27,17 +27,19 @@ class App extends React.Component<Props, State> {
     }
     updateSelectedLocation = (location: string) => this.setState({...this.state, selectedLocation: location})
 
-    componentDidUpdate() {
-        console.log(this.state)
+    updateState = (context: {}) => {
+        this.setState({
+            ...this.state,
+            ...context
+        })
     }
 
     render() {
         let appContext = {
-            webSocket: this.state.webSocket,
-            updateSocket: this.updateSocket,
-            selectedLocation: this.state.selectedLocation,
-            updateSelectedLocation: this.updateSelectedLocation
+            context: {...this.state},
+            updateContext: this.updateState
         }
+        
         return (
             <Container>
                 <AppContext.Provider value={appContext}>
