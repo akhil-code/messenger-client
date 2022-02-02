@@ -52,9 +52,9 @@ class ChannelsList extends React.Component<Props, State> {
             <React.Fragment>
                 <WelcomeNote/>
                 <Row>
-                    <Col>
-                        {/* key is location name, value is list of channel names */}
-                        {Object.entries(this.state.channels).map(entry => (
+                    {/* key is location name, value is list of channel names */}
+                    {Object.entries(this.state.channels).map(entry => (
+                        <Col xs="6">
                             <React.Fragment key={uuidv4()}>
                                 <ListGroup >
                                     <ListGroupItem action active href="#" tag="button">
@@ -64,8 +64,8 @@ class ChannelsList extends React.Component<Props, State> {
                                 </ListGroup>
                                 <br/>
                             </React.Fragment>
-                        ))}
-                    </Col>
+                        </Col>
+                    ))}
                 </Row>
             </React.Fragment>
         );
