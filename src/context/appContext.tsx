@@ -1,15 +1,19 @@
 import * as React from "react";
-import WebSocket from "../handlers/webSocketHandler";
+import EventHandlerCallbacks from "../sockets/callbacks";
+import WebSocket from "../sockets/webSocket";
+import { Message } from '../types/Chat.js';
 
-interface ContextInterface {
+export interface Context {
     context: {
         webSocket?: WebSocket,
-        selectedLocation?: string
+        selectedLocation?: string,
+        groupMessages?: Map<string, Array<Message>>,
+        eventHandlerCallbacks?: EventHandlerCallbacks
     },
     updateContext: ({}) => void
 }
 
-export const AppContext = React.createContext<ContextInterface>({
+export const AppContext = React.createContext<Context>({
     context: {},
     updateContext: ({}) => {},
 });

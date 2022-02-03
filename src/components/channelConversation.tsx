@@ -1,27 +1,19 @@
 import React from "react";
 import MessageEditor from "./messageEditor";
 import Conversation from "./conversation";
+import { useParams } from 'react-router-dom';
 
-interface Message {
-    message: string,
-    sender: string
-}
-
-export default function ChannelConversation(props: {}){
-
-    const [conversation, setConversation] = React.useState<Array<Message>>([])
-
-    const getAvailableRooms = () => {
-        // make call to backend
-    }
-    // const addToConversation = (newMessage: Message) => setConversation([...conversation, newMessage])
-
+interface Props {}
+interface State {}
+ 
+export default function ChannelConversation() {
+    let { channel } = useParams()
     return (
         <React.Fragment>
-            {/* <SocketHandler updateSocket={this.updateSocket} socket={this.state.socket} addToConversation={this.addToConversation} /> */}
-            <Conversation conversation={conversation} />
+            <Conversation channel={channel}/>
             <br/>
-            <MessageEditor/>
+            <MessageEditor channel={channel!}/>
         </React.Fragment>
     );
 }
+ 

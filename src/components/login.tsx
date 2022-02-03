@@ -15,7 +15,9 @@ import {
     CardBody,
 } from "reactstrap";
 import { AppContext } from '../context/appContext'
-import WebSocket from '../handlers/webSocketHandler'
+import WebSocket from '../sockets/webSocket'
+import { Context } from '../context/appContext'
+
 
 interface Props {}
 
@@ -95,13 +97,13 @@ class Login extends React.Component<Props, State> {
         return true;
     };
 
-    handleSignIn = (context: {}, updateContext: ({}) => void) => {
+    handleSignIn = (appContext: Context) => {
         if (!this.validateSignIn()) {
             return;
         }
-        updateContext({
-            ...context,
-            webSocket: new WebSocket(),
+        appContext.updateContext({
+            ...appContext.context,
+            webSocket: new WebSocket(this.state.location, appContext.context.eventHandlerCallbacks),
             selectedLocation: this.state.location,
         })
     };
@@ -120,7 +122,7 @@ class Login extends React.Component<Props, State> {
     render() {
         return (
             <AppContext.Consumer>
-                {({context, updateContext}) => (
+                {appContext => (
                     <div>
                         <Row>
                             <Col lg={{ offset: 3, size: 6 }}>
@@ -190,9 +192,9 @@ class Login extends React.Component<Props, State> {
                                         <Row>
                                             <Col xs="auto">
                                                 <Button
-                                                    onClick={() => this.handleSignIn(context, updateContext)}
+                                                    onClick={() => this.handleSignIn(appContext)}
                                                     outline
-                                                    disabled={context.webSocket !== undefined}
+                                                    disabled={appContext.context.webSocket !== undefined}
                                                     color="success"
                                                 >
                                                     Sign in

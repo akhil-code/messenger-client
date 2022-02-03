@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import { InputGroup, Input, Button, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Message } from '../types/Chat'
+import { AppContext } from "../context/appContext";
+import WebSocket from "../sockets/webSocket";
 
 interface Props {
+    channel: string;
 }
 
 interface State {
@@ -21,44 +24,49 @@ class MessageEditor extends Component<Props, State> {
         });
     };
 
-    sendMessageHandler = (event: React.SyntheticEvent) => {
+    sendMessageHandler = (event: React.SyntheticEvent, socket?: WebSocket) => {
         event.preventDefault();
         // send message event
         let message = this.state.message;
 
-        if (message !== "") {
+        if (socket !== undefined && message !== "") {
             let messageEvent: Message = {
-                sender: "",
-                receiver: "/",
+                sender: socket.getSocketId(),
+                receiver: this.props.channel,
                 message: message,
             };
 
-            // socket.emit("groupMessage", messageEvent);
+            socket?.sendMessage(messageEvent)
+            this.setState({ message: "" });
         }
-        this.setState({ message: "" });
     };
 
     render() {
         return (
-            <Row>
-                <form>
-                    <InputGroup>
-                        <Input
-                            value={this.state.message}
-                            onChange={this.handleMessageChange}
-                            placeholder="Type your message here...."
-                        />
-                        <Button
-                            type="submit"
-                            onClick={this.sendMessageHandler}
-                            disabled={this.state.message === ""}
-                            color="success"
-                        >
-                            Send
-                        </Button>
-                    </InputGroup>
-                </form>
-            </Row>
+            <AppContext.Consumer>
+                {({context, updateContext}) => (
+                    <Row>
+                        <form>
+                            <InputGroup>
+                                <Input
+                                    value={this.state.message}
+                                    onChange={this.handleMessageChange}
+                                    placeholder="Type your message here...."
+                                />
+                                <Button
+                                    type="submit"
+                                    onClick={(event) => this.sendMessageHandler(event, context.webSocket)}
+                                    disabled={this.state.message === ""}
+                                    color="success"
+                                >
+                                    Send
+                                </Button>
+                            </InputGroup>
+                        </form>
+                    </Row>
+                )}
+            </AppContext.Consumer>
+            
         );
     }
 }
