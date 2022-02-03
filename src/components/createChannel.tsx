@@ -91,7 +91,6 @@ class CreateChannel extends React.Component<Props, State> {
         }
 
         if (location === "" || location === "default") {
-            console.log("invalid value");
             this.setState({
                 ...this.state,
                 isInvalidLocation: true,

@@ -1,42 +1,28 @@
-import * as React from 'react';
-import { Component } from 'react';
-import { AppContext } from '../context/appContext'
-import { Row, Col, ListGroup, ListGroupItem } from 'reactstrap'
+import * as React from "react";
+import { AppContext } from "../context/appContext";
+import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
     channel: string;
 }
- 
-interface State {
-    onlineUsers: Array<string>;
-}
- 
+
+interface State {}
+
 class ConversationUsers extends React.Component<Props, State> {
-    state = {
-        onlineUsers: []
-    }
-
-    componentDidMount() {
-        let url = process.env.REACT_APP_BACKEND_SERVER_DOMAIN
-        console.log(this.context)
-        let location = this.context.context.selectedLocation
-        
-        fetch(`${url}/online-users/${location}/channel/${this.props.channel}`)
-            .then(res => res.json())
-            .then(res => this.setState({...this.state, onlineUsers: res}))
-    }
-
-    render() { 
+    render() {
         return (
             <AppContext.Consumer>
-                {({context, updateContext}) => (
+                {({ context, updateContext }) => (
                     <Row>
                         <Col>
-                            <br/>
+                            <br />
                             <h2>Online users</h2>
                             <ListGroup>
-                                {this.state.onlineUsers.map(user => (
-                                    <ListGroupItem> {user} </ListGroupItem>
+                                {context.onlineUsers?.get(this.props.channel)?.map((user) => (
+                                    <ListGroupItem key={uuidv4()}>
+                                        {user}
+                                    </ListGroupItem>
                                 ))}
                             </ListGroup>
                         </Col>
@@ -46,7 +32,6 @@ class ConversationUsers extends React.Component<Props, State> {
         );
     }
 }
-ConversationUsers.contextType = AppContext
-
+ConversationUsers.contextType = AppContext;
 
 export default ConversationUsers;

@@ -39,6 +39,10 @@ class Conversation extends React.Component<Props, State> {
                 pastConversation: res
             })
         })
+        
+        
+        let context = this.context.context
+        context.webSocket?.addToRoom(context.selectedLocation, this.props.channel)
     }
 
     renderPastConversation = () => {
@@ -67,7 +71,6 @@ class Conversation extends React.Component<Props, State> {
                             {this.renderPastConversation()}
                             {this.renderConversation(context.groupMessages?.get(this.props.channel!))}
                         </ListGroup>
-                        {context.webSocket?.addToRoom(context.selectedLocation!, this.props.channel!)}
                     </Row>
                 )}
             </AppContext.Consumer>

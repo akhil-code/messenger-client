@@ -1,6 +1,6 @@
 import { io, Socket } from "socket.io-client";
 import { Message } from '../types/Chat.js'
-import EventHandlerCallbacks from './callbacks'
+import { EventHandlerCallbacks } from './callbacks'
 
 export default class WebSocket {
 
@@ -14,8 +14,11 @@ export default class WebSocket {
             console.log(`connection successful with server with socket id: ${this.socket.id}`)
 
             this.socket.on('groupMessage', (message: Message) => {
-                console.log(message)
                 callbacks?.groupMessageCallback(message)
+            })
+
+            this.socket.on('onlineUsersUpdate', (channelId: string, users: Array<string>) => {
+                callbacks?.onlineUsersUpdateCallback(channelId, users)
             })
         })
     }

@@ -9,36 +9,16 @@ import ContactUs from "./components/contactUs";
 import OnlineUsers from "./components/onlineUsers";
 import Login from "./components/login";
 import CreateChannel from "./components/createChannel";
-import { AppContext } from "./context/appContext";
-import WebSocket from "./sockets/webSocket";
+import { AppContext, ContextData, getDefaultContextData } from "./context/appContext";
 import { Message } from "./types/Chat.js";
-import EventHandlerCallbacks from "./sockets/callbacks";
 
 interface Props {}
-interface State {
-    webSocket?: WebSocket;
-    selectedLocation?: string;
-    groupMessages?: Map<string, Array<Message>>;
-    eventHandlerCallbacks: EventHandlerCallbacks
 
-}
-
-class App extends React.Component<Props, State> {
-    state = { 
-        webSocket: undefined, 
-        selectedLocation: undefined,
-        groupMessages: new Map<string, Array<Message>>(),
-        eventHandlerCallbacks: {
-            groupMessageCallback: (message: Message) => {
-                if(this.state.groupMessages.has(message.receiver)) {
-                    this.state.groupMessages.get(message.receiver)?.push(message)
-                } else {
-                    this.state.groupMessages.set(message.receiver, [message])
-                }
-                this.setState({...this.state})
-            },  
-        }
-    };
+/**
+ * Note - State of app is based on the AppContext.
+ */
+class App extends React.Component<Props, ContextData> {
+    state: ContextData = getDefaultContextData(this)
 
     render() {
         let appContext = {
@@ -54,31 +34,13 @@ class App extends React.Component<Props, State> {
                             <PageHeader />
                             <Routes>
                                 <Route path="/" element={<ChannelsList />} />
-                                <Route
-                                    path="/channels"
-                                    element={<ChannelsList />}
-                                />
+                                <Route path="/channels" element={<ChannelsList />} />
                                 <Route path="/login" element={<Login />} />
-                                <Route
-                                    path="/online-users"
-                                    element={<OnlineUsers />}
-                                />
-                                <Route
-                                    path="/conversation/:channel"
-                                    element={<ChannelConversation />}
-                                />
-                                <Route
-                                    path="/create-channel"
-                                    element={<CreateChannel />}
-                                />
-                                <Route
-                                    path="/support"
-                                    element={<SupportPage />}
-                                />
-                                <Route
-                                    path="/contact-us"
-                                    element={<ContactUs />}
-                                />
+                                <Route path="/online-users" element={<OnlineUsers />} />
+                                <Route path="/conversation/:channel" element={<ChannelConversation />} />
+                                <Route path="/create-channel" element={<CreateChannel />} />
+                                <Route path="/support" element={<SupportPage />} />
+                                <Route path="/contact-us" element={<ContactUs />} />
                             </Routes>
                         </BrowserRouter>
                     </div>
