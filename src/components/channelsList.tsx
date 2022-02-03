@@ -2,8 +2,6 @@ import * as React from "react";
 import { Row, ListGroup, ListGroupItem, Badge, Col } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
 import WelcomeNote from "./welcomeNote";
-import { AppContext } from "../context/appContext";
-import WebSocket from "../sockets/webSocket";
 import { Link } from "react-router-dom";
 
 interface Props {}
@@ -70,9 +68,7 @@ class ChannelsList extends React.Component<Props, State> {
                                             tag="button"
                                         >
                                             {entry[0]}{" "}
-                                            <Badge color="danger">
-                                                0 online users
-                                            </Badge>
+                                            
                                         </ListGroupItem>
                                         {this.renderChannelsList(entry[1])}
                                     </ListGroup>

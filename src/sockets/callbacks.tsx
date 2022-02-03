@@ -1,5 +1,4 @@
 import { Message } from "../types/Chat.js";
-import { ContextData } from "../context/appContext.js";
 import App from '../app.js'
 
 export interface EventHandlerCallbacks {

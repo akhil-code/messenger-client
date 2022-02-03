@@ -10,7 +10,6 @@ import OnlineUsers from "./components/onlineUsers";
 import Login from "./components/login";
 import CreateChannel from "./components/createChannel";
 import { AppContext, ContextData, getDefaultContextData } from "./context/appContext";
-import { Message } from "./types/Chat.js";
 
 interface Props {}
 

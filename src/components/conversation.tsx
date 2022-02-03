@@ -66,7 +66,7 @@ class Conversation extends React.Component<Props, State> {
             <AppContext.Consumer>
                 {({context, updateContext}) => (
                     <Row>
-                        <h3>Conversation</h3>
+                        <h3>{this.props.channel}</h3>
                         <ListGroup>
                             {this.renderPastConversation()}
                             {this.renderConversation(context.groupMessages?.get(this.props.channel!))}

@@ -46,27 +46,28 @@ class MessageEditor extends Component<Props, State> {
             <AppContext.Consumer>
                 {({context, updateContext}) => (
                     <Row>
-                        <form>
-                            <InputGroup>
-                                <Input
-                                    value={this.state.message}
-                                    onChange={this.handleMessageChange}
-                                    placeholder="Type your message here...."
-                                />
-                                <Button
-                                    type="submit"
-                                    onClick={(event) => this.sendMessageHandler(event, context.webSocket)}
-                                    disabled={this.state.message === ""}
-                                    color="success"
-                                >
-                                    Send
-                                </Button>
-                            </InputGroup>
-                        </form>
+                        {context.webSocket !== undefined && 
+                            <form>
+                                <InputGroup>
+                                    <Input
+                                        value={this.state.message}
+                                        onChange={this.handleMessageChange}
+                                        placeholder="Type your message here...."
+                                    />
+                                    <Button
+                                        type="submit"
+                                        onClick={(event) => this.sendMessageHandler(event, context.webSocket)}
+                                        disabled={this.state.message === ""}
+                                        color="success"
+                                    >
+                                        Send
+                                    </Button>
+                                </InputGroup>
+                            </form>
+                        }
                     </Row>
                 )}
             </AppContext.Consumer>
-            
         );
     }
 }
