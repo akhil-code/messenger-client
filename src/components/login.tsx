@@ -101,10 +101,20 @@ class Login extends React.Component<Props, State> {
         if (!this.validateSignIn()) {
             return;
         }
+
+        let location = this.state.location;
+        localStorage.setItem('location', location)
+        
+        let webSocket = new WebSocket(location, appContext.context.eventHandlerCallbacks);
+        webSocket.setSession({
+            username: this.state.name,
+            location
+        })
+        webSocket.connect()
+
         appContext.updateContext({
             ...appContext.context,
-            webSocket: new WebSocket(this.state.location, appContext.context.eventHandlerCallbacks),
-            selectedLocation: this.state.location,
+            webSocket,
         })
     };
 

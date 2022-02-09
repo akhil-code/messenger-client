@@ -12,7 +12,7 @@ interface State {
     pastConversation: Array<Message>;
 }
 
-class Conversation extends React.Component<Props, State> {
+class PublicChatHistory extends React.Component<Props, State> {
 
     state = {
         pastConversation: new Array<Message>()
@@ -30,8 +30,8 @@ class Conversation extends React.Component<Props, State> {
             }),
         };
 
-        const { REACT_APP_BACKEND_SERVER_DOMAIN } = process.env
-        fetch(`${REACT_APP_BACKEND_SERVER_DOMAIN}/chat-history`, requestOptions)
+        const serverDomain = process.env.REACT_APP_BACKEND_SERVER_DOMAIN
+        fetch(`${serverDomain}/chat-history`, requestOptions)
         .then(res => res.json())
         .then(res => {
             this.setState({
@@ -42,7 +42,7 @@ class Conversation extends React.Component<Props, State> {
         
         
         let context = this.context.context
-        context.webSocket?.addToRoom(context.selectedLocation, this.props.channel)
+        context.webSocket?.addToPublicRoom(context.selectedLocation, this.props.channel)
     }
 
     renderPastConversation = () => {
@@ -77,6 +77,6 @@ class Conversation extends React.Component<Props, State> {
         );
     }
 }
-Conversation.contextType = AppContext
+PublicChatHistory.contextType = AppContext
 
-export default Conversation;
+export default PublicChatHistory;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Row, ListGroup, ListGroupItem, Badge, Col } from "reactstrap";
+import { Row, ListGroup, ListGroupItem, Col } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
 import WelcomeNote from "./welcomeNote";
 import { Link } from "react-router-dom";
@@ -42,7 +42,7 @@ class ChannelsList extends React.Component<Props, State> {
     renderChannelsList = (channelNames: Array<string>) => {
         return channelNames.map((channel) => (
             <ListGroupItem key={uuidv4()}>
-                <Link to={`/conversation/${channel}`}>
+                <Link to={`/conversation/channel/${channel}`}>
                     {channel}
                 </Link>
             </ListGroupItem>

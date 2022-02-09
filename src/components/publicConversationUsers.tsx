@@ -2,6 +2,7 @@ import * as React from "react";
 import { AppContext } from "../context/appContext";
 import { Row, Col, Button, ListGroup, ListGroupItem } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
+import { Link } from "react-router-dom";
 
 interface Props {
     channel: string;
@@ -9,7 +10,7 @@ interface Props {
 
 interface State {}
 
-class ConversationUsers extends React.Component<Props, State> {
+class PublicConversationUsers extends React.Component<Props, State> {
     render() {
         return (
             <AppContext.Consumer>
@@ -25,6 +26,8 @@ class ConversationUsers extends React.Component<Props, State> {
                                             <Row>
                                                 <Col xs="10">{user}</Col>
                                                 <Col xs="2">
+                                                    <Link to={`/conversation/private/${user}`}>
+                                                    </Link>
                                                     <Button color="dark" outline size="sm">
                                                         Chat
                                                     </Button>
@@ -41,6 +44,6 @@ class ConversationUsers extends React.Component<Props, State> {
         );
     }
 }
-ConversationUsers.contextType = AppContext;
+PublicConversationUsers.contextType = AppContext;
 
-export default ConversationUsers;
+export default PublicConversationUsers;

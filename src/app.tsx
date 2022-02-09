@@ -10,6 +10,7 @@ import OnlineUsers from "./components/onlineUsers";
 import Login from "./components/login";
 import CreateChannel from "./components/createChannel";
 import { AppContext, ContextData, getDefaultContextData } from "./context/appContext";
+import PrivateConversation from "./components/privateConversation";
 
 interface Props {}
 
@@ -36,7 +37,8 @@ class App extends React.Component<Props, ContextData> {
                                 <Route path="/channels" element={<ChannelsList />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/online-users" element={<OnlineUsers />} />
-                                <Route path="/conversation/:channel" element={<ChannelConversation />} />
+                                <Route path="/conversation/channel/:channel" element={<ChannelConversation />} />
+                                <Route path="/conversation/private/:channel" element={<PrivateConversation />} />
                                 <Route path="/create-channel" element={<CreateChannel />} />
                                 <Route path="/support" element={<SupportPage />} />
                                 <Route path="/contact-us" element={<ContactUs />} />

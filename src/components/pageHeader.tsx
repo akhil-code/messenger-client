@@ -29,38 +29,42 @@ class PageHeader extends React.Component<Props, State> {
         });
     };
 
+    closeNavbarItems = (event: React.SyntheticEvent) => {
+        this.setState({...this.state, expandNavbar: false})
+    }
+
     render() {
         return (
             <AppContext.Consumer>
                 { ({context}) => (
                     <Row>
-                        <Navbar color="warning" fixed="top" light expand="md">
+                        <Navbar color="warning" fixed="top" light expand="lg">
                             <Link className="navbar-brand" to="/">Quick dates</Link>
-                            {context.selectedLocation === undefined ? <></> : (
-                                    <Badge color="secondary" pill>{context.selectedLocation}</Badge>
+                            {context.session?.location === undefined ? <></> : (
+                                <Badge color="secondary" pill>{context.session?.location}</Badge>
                             )}
                             <NavbarToggler onClick={this.toggleNavbarItems} />
                             <Collapse navbar isOpen={this.state.expandNavbar}>
                                 <Nav className="me-auto" navbar>
                                     {context.webSocket !== undefined ? <></> : (
                                         <NavItem>
-                                            <Link className="nav-link" to="/login">Login</Link>
+                                            <Link className="nav-link" to="/login" onClick={this.closeNavbarItems}>Login</Link>
                                         </NavItem>
                                     )}
                                     <NavItem>
-                                        <Link className="nav-link" to="/online-users">Online users</Link>
+                                        <Link className="nav-link" to="/online-users" onClick={this.closeNavbarItems}>Online users</Link>
                                     </NavItem>
                                     <NavItem>
-                                        <Link className="nav-link" to="/channels">Channels</Link>
+                                        <Link className="nav-link" to="/channels" onClick={this.closeNavbarItems}>Channels</Link>
                                     </NavItem>
                                     <NavItem>
-                                        <Link className="nav-link" to="/create-channel">Create channel</Link>
+                                        <Link className="nav-link" to="/create-channel" onClick={this.closeNavbarItems}>Create channel</Link>
                                     </NavItem>
                                     <NavItem>
-                                        <Link className="nav-link" to="/support">Support us / donate</Link>
+                                        <Link className="nav-link" to="/support" onClick={this.closeNavbarItems}>Support us / donate</Link>
                                     </NavItem>
                                     <NavItem>
-                                        <Link className="nav-link" to="/contact-us">Contact us</Link>
+                                        <Link className="nav-link" to="/contact-us" onClick={this.closeNavbarItems}>Contact us</Link>
                                     </NavItem>
                                 </Nav>
                             </Collapse>

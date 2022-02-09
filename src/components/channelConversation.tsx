@@ -1,8 +1,8 @@
 import React from "react";
-import MessageEditor from "./messageEditor";
-import Conversation from "./conversation";
+import PublicMessageInput from "./publicMessageInput";
+import PublicChatHistory from "./publicChatHistory";
 import { useParams } from 'react-router-dom';
-import ConversationUsers from "./conversationUsers";
+import PublicConversationUsers from "./publicConversationUsers";
 
 interface Props {}
 interface State {}
@@ -11,10 +11,10 @@ export default function ChannelConversation() {
     let { channel } = useParams()
     return (
         <React.Fragment>
-            <Conversation channel={channel}/>
+            <PublicChatHistory channel={channel}/>
             <br/>
-            <MessageEditor channel={channel!}/>
-            <ConversationUsers channel={channel!}/>
+            <PublicMessageInput channel={channel!}/>
+            <PublicConversationUsers channel={channel!}/>
         </React.Fragment>
     );
 }

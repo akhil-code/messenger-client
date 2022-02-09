@@ -1,4 +1,5 @@
 import * as React from "react";
+import { NavLink } from "react-router-dom";
 import { Row, Col, Badge, CardTitle, ListGroup, ListGroupItem, Button, Card, CardBody } from "reactstrap";
 import { v4 as uuidv4 } from 'uuid'
 
@@ -19,7 +20,6 @@ class OnlineUsers extends React.Component<Props, State> {
     }
 
     fetchAllAvailableUsers = () => {
-        console.log("fetching users from server at /online-users");
         const serverDomain = process.env.REACT_APP_BACKEND_SERVER_DOMAIN;
         fetch(`${serverDomain}/online-users`)
             .then((res) => res.json())
@@ -57,7 +57,9 @@ class OnlineUsers extends React.Component<Props, State> {
                     <Col xs="10">{user}</Col>
                     <Col xs="2">
                         <Button color="dark" outline size="sm">
-                            Chat
+                            <NavLink className="button" to={`/conversation/private/${user}`}>
+                                Chat
+                            </NavLink>
                         </Button>
                     </Col>
                 </Row>

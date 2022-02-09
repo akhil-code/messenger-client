@@ -13,7 +13,7 @@ interface State {
     message: string;
 }
 
-class MessageEditor extends Component<Props, State> {
+class PublicMessageInput extends Component<Props, State> {
     state = {
         message: "",
     };
@@ -36,7 +36,7 @@ class MessageEditor extends Component<Props, State> {
                 message: message,
             };
 
-            socket?.sendMessage(messageEvent)
+            socket?.sendGroupMessage(messageEvent)
             this.setState({ message: "" });
         }
     };
@@ -72,4 +72,4 @@ class MessageEditor extends Component<Props, State> {
     }
 }
 
-export default MessageEditor;
+export default PublicMessageInput;
