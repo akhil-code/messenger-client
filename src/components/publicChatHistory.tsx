@@ -1,8 +1,9 @@
 import * as React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ListGroupItem, ListGroup, Row, Badge } from "reactstrap";
-import { Message } from '../types/Chat.js';
+import { Message } from '../types/message.js';
 import { AppContext } from '../context/appContext'
+import MessageEvent from '../types/messageEvent.js'
 
 interface Props {
     channel?: string;
@@ -53,10 +54,10 @@ class PublicChatHistory extends React.Component<Props, State> {
         ));
     }
 
-    renderConversation = (conversation?: Array<Message>) => {
+    renderConversation = (conversation?: Array<MessageEvent>) => {
         return conversation?.map((item) => (
             <ListGroupItem key={uuidv4()}>
-                <Badge>{item.sender}</Badge> : {item.message}
+                <Badge>{item.sender.username}</Badge> : {item.message}
             </ListGroupItem>
         ));
     };

@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { InputGroup, Input, Button, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Message } from '../types/Chat'
+import { Message } from '../types/message'
 import { AppContext, ContextData } from "../context/appContext";
 import WebSocket from "../sockets/webSocket";
-
+import Session from '../types/session'
+import MessageEvent from '../types/messageEvent'
 
 interface Props {
-    channel: string;
+    receiver: Session;
 }
 
 interface State {
@@ -28,18 +29,18 @@ class PrivateMessageInput extends React.Component<Props, State> {
     sendMessageHandler = (event: React.SyntheticEvent, socket?: WebSocket) => {
         event.preventDefault();
         // send message event
+        
         let message = this.state.message;
-
         if (socket !== undefined && message !== "") {
-            let messageEvent: Message = {
-                sender: socket.getSocketId(),
-                receiver: this.props.channel,
-                message,
-            };
-
             // update local cache with new message
             let context: ContextData = this.context.context;
             let updateContext = this.context.updateContext;
+            
+            let messageEvent: MessageEvent = {
+                sender: context.session!,
+                receiver: this.props.receiver,
+                message,
+            };
 
             context.groupMessages = this.storeMessageEvent(messageEvent, context.groupMessages)
             updateContext(context)
@@ -49,19 +50,18 @@ class PrivateMessageInput extends React.Component<Props, State> {
             // event.target.dispatchEvent(new Event('scroll'))
             window.scrollY = 10000
 
-            
             this.setState({ message: "" });
             
         }
 
     };
 
-    storeMessageEvent = (messageEvent: Message, messageMap?: Map<string, Array<Message>>) => {
+    storeMessageEvent = (messageEvent: MessageEvent, messageMap?: Map<string, Array<MessageEvent>>) => {
         if(messageMap !== undefined) {
-            if(messageMap.has(messageEvent.receiver)) {
-                messageMap.get(messageEvent.receiver)?.push(messageEvent)
+            if(messageMap.has(messageEvent.receiver.sessionId!)) {
+                messageMap.get(messageEvent.receiver.sessionId!)?.push(messageEvent)
             } else {
-                messageMap.set(messageEvent.receiver, [messageEvent])
+                messageMap.set(messageEvent.receiver.sessionId!, [messageEvent])
             }
         }
         return messageMap
@@ -71,7 +71,7 @@ class PrivateMessageInput extends React.Component<Props, State> {
     render() { 
         return (
             <AppContext.Consumer>
-                {({context, updateContext}) => (
+                {({context}) => (
                     <Row style={ {position: "fixed", bottom: "20px", left: "20px", right: "20px"} }>
                         {context.webSocket !== undefined && 
                             <form>

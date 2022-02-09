@@ -1,21 +1,22 @@
 import * as React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ListGroupItem, ListGroup, Row, Badge } from "reactstrap";
-import { Message } from '../types/Chat.js';
 import { AppContext } from '../context/appContext'
+import Session from '../types/session.js'
+import MessageEvent from '../types/messageEvent.js';
 
 interface Props {
-    channel?: string;
+    receiver?: Session;
 }
 
 interface State {}
 
 class PrivateChatHistory extends React.Component<Props, State> {
     
-    renderConversation = (conversation?: Array<Message>) => {
-        return conversation?.map((item) => (
+    renderConversation = (conversation?: Array<MessageEvent>) => {
+        return conversation?.map((item: MessageEvent) => (
             <ListGroupItem key={uuidv4()}>
-                <Badge>{item.sender}</Badge> : {item.message}
+                <Badge>{item.sender.username}</Badge> : {item.message}
             </ListGroupItem>
         ));
     };
@@ -25,9 +26,9 @@ class PrivateChatHistory extends React.Component<Props, State> {
             <AppContext.Consumer>
                 {({context}) => (
                     <Row>
-                        <h3>{this.props.channel}</h3>
+                        <h3>{this.props?.receiver?.username}</h3>
                         <ListGroup>
-                            {this.renderConversation(context.groupMessages?.get(this.props.channel!))}
+                            {this.renderConversation(context.groupMessages?.get(this.props.receiver?.sessionId!))}
                         </ListGroup>
                     </Row>
                 )}

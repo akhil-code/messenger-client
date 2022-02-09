@@ -40,8 +40,8 @@ class PageHeader extends React.Component<Props, State> {
                     <Row>
                         <Navbar color="warning" fixed="top" light expand="lg">
                             <Link className="navbar-brand" to="/">Quick dates</Link>
-                            {context.session?.location === undefined ? <></> : (
-                                <Badge color="secondary" pill>{context.session?.location}</Badge>
+                            {context.session?.location === undefined || context.session?.username === undefined ? <></> : (
+                                <Badge color="secondary" pill>{context.session?.username} - {context.session?.location}</Badge>
                             )}
                             <NavbarToggler onClick={this.toggleNavbarItems} />
                             <Collapse navbar isOpen={this.state.expandNavbar}>

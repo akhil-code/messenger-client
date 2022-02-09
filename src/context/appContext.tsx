@@ -2,15 +2,15 @@ import * as React from "react";
 import App from "../app";
 import { EventHandlerCallbacks } from "../sockets/callbacks";
 import WebSocket from "../sockets/webSocket";
-import { Message } from '../types/Chat.js';
 import { getEventHandlerCallbacks } from "../sockets/callbacks";
 import Session from '../types/session'
+import MessageEvent from "../types/messageEvent";
 
 
 export interface ContextData {
     session?: Session,    
     webSocket?: WebSocket,
-    groupMessages?: Map<string, Array<Message>>,
+    groupMessages?: Map<string, Array<MessageEvent>>,
     onlineUsers?: Map<string, Array<string>>,
     eventHandlerCallbacks?: EventHandlerCallbacks
 }
@@ -33,17 +33,14 @@ export const getDefaultContextData = (app: App) => {
     let webSocket : WebSocket | undefined = undefined
 
     if(session.sessionId && session.location) {
-        console.log('creating web socket for sessionId ', session.sessionId, " and location: ", session.location)
         webSocket = new WebSocket(session.location!, eventHandlerCallbacks)
         webSocket.setSession(session)
         webSocket.connect()
     }
-
-
     return {
         session,
         webSocket,
-        groupMessages: new Map<string, Array<Message>>(),
+        groupMessages: new Map<string, Array<MessageEvent>>(),
         onlineUsers: new Map<string, Array<string>>(),
         eventHandlerCallbacks,
     }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { InputGroup, Input, Button, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Message } from '../types/Chat'
+import { Message } from '../types/message'
 import { AppContext } from "../context/appContext";
 import WebSocket from "../sockets/webSocket";
 

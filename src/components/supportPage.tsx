@@ -36,12 +36,7 @@ class SupportPage extends React.Component<Props, State> {
                             <Row>
                                 <Col>
                                     <Button color="primary" outline>
-                                        Donate by UPI
-                                    </Button>
-                                </Col>
-                                <Col>
-                                    <Button color="danger" outline>
-                                        Donate by Net banking
+                                        Donate by UPI - quickdatesfunda@ybl
                                     </Button>
                                 </Col>
                             </Row>
